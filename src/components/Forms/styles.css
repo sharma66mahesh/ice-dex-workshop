@@ -1,0 +1,17 @@
+.form-group {
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+}
+
+.error {
+    color: red;
+    display: block;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
