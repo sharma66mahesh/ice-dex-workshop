@@ -45,7 +45,7 @@ function App() {
         setExchangeContract(exchangeContract);
         setTokenContract(tokenContract);
 
-        setAvailableReserveToken(await exchangeContract.getReserve());
+        setAvailableReserveToken(await exchangeContract.getTokenReserve());
         setAvailableReserveICZ(await fetchBalance(provider, exchangeContract.address));
 
       } catch (err) {
@@ -62,7 +62,7 @@ function App() {
       if(!exchangeContract || !provider || !walletAddress || !tokenContract){
         return;
       }
-      setAvailableReserveToken(await exchangeContract.getReserve());
+      setAvailableReserveToken(await exchangeContract.getTokenReserve());
       setAvailableReserveICZ(await fetchBalance(provider, exchangeContract.address));
       setICZbalance(await fetchBalance(provider, walletAddress));
       setTokenBalance(await fetchBalance(provider, walletAddress, tokenContract));
@@ -91,12 +91,12 @@ function App() {
 
     try {
       let tx = null;
-      if(values.from === SUPPORTED_TOKENS.MYTOKEN[0] && values.to === SUPPORTED_TOKENS.ICE[0]) {
+      if(values.from === SUPPORTED_TOKENS.MYTOKEN[0] && values.to === SUPPORTED_TOKENS.ICZ[0]) {
         // swap MYTOKEN with ICZ tokens
         const res1 = await tokenContract.approve(exchangeContract.address, ethers.utils.parseEther(values.amount));
         await res1.wait();
         alert(res1.hash);
-        tx = await exchangeContract.swapTokensForIcz(ethers.utils.parseEther(values.amount), 0);
+        tx = await exchangeContract.swapTokenForIcz(ethers.utils.parseEther(values.amount), 0);
         
       } else {
         // swap ICZ tokens with MYTOKEN

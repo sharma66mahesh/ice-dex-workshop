@@ -21,7 +21,7 @@ const SwapForm = ({ handleSubmit, exchangeContract }) => {
 
     const formik = useFormik({
         initialValues: {
-            from: SUPPORTED_TOKENS.ICE[0],
+            from: SUPPORTED_TOKENS.ICZ[0],
             to: SUPPORTED_TOKENS.MYTOKEN[0],
             amount: '0',
         },
@@ -53,7 +53,8 @@ const SwapForm = ({ handleSubmit, exchangeContract }) => {
     const estimateReceivingToken = async (exchangeContract, amount) => {
         if(!exchangeContract) return;
         try {
-            const res = await exchangeContract.getTokenAmount(ethers.utils.parseEther(amount));
+            // TODO: Not working properly
+            const res = await exchangeContract.getTokenAmount(amount);
             console.log(res);
             setReceivingAmt(ethers.utils.formatEther(res));
         } catch(e) {
@@ -67,7 +68,7 @@ const SwapForm = ({ handleSubmit, exchangeContract }) => {
     useEffect(() => {
         if(formik.values.from == formik.values.to) return;
         
-        if(formik.values.from === SUPPORTED_TOKENS.ICE[0]) {
+        if(formik.values.from === SUPPORTED_TOKENS.ICZ[0]) {
             debouncedTokenEstimation(exchangeContract, formik.values.amount);
         } else {
             debouncedIczEstimation(exchangeContract,formik.values.amount);
@@ -86,7 +87,7 @@ const SwapForm = ({ handleSubmit, exchangeContract }) => {
                         value={formik.values.from}
                         name='from'
                     >
-                        <option value={SUPPORTED_TOKENS.ICE[0]}>{SUPPORTED_TOKENS.ICE[0]}</option>
+                        <option value={SUPPORTED_TOKENS.ICZ[0]}>{SUPPORTED_TOKENS.ICZ[0]}</option>
                         <option value={SUPPORTED_TOKENS.MYTOKEN[0]}>{SUPPORTED_TOKENS.MYTOKEN[0]}</option>
                     </select>
                     {formik.errors.from && <span className='error'>{formik.errors.from}</span>}
@@ -98,7 +99,7 @@ const SwapForm = ({ handleSubmit, exchangeContract }) => {
                         value={formik.values.to}
                         name='to'
                     >
-                        <option value={SUPPORTED_TOKENS.ICE[0]}>{SUPPORTED_TOKENS.ICE[0]}</option>
+                        <option value={SUPPORTED_TOKENS.ICZ[0]}>{SUPPORTED_TOKENS.ICZ[0]}</option>
                         <option value={SUPPORTED_TOKENS.MYTOKEN[0]}>{SUPPORTED_TOKENS.MYTOKEN[0]}</option>
                     </select>
                     {formik.errors.to && <span className='error'>{formik.errors.to}</span>}

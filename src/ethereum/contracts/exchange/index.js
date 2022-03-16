@@ -1,6 +1,6 @@
 import EXCHANGE_ABI from './exchange.json';
 
 export const EXCHANGE = {
-    address: '0x0E3C3B3e4100104Be8A8a635F18B80709Acdb6fB',
+    address: process.env['REACT_APP_EXCHANGE_ADDRESS'],
     abi: EXCHANGE_ABI,
 };

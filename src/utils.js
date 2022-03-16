@@ -16,11 +16,6 @@ export async function detectMetamask() {
     return false;
 }
 
-export const AVAILABLE_METHODS = {
-    swap_icz_myToken: 'swapIczForToken',
-    swap_myToken_icz: 'swapTokensForIcz',
-}
-
 export async function fetchBalance(provider, walletAddress, contract) {
     if(contract) {
         return contract.balanceOf(walletAddress);

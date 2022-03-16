@@ -13,51 +13,46 @@ contract Exchange {
 
     function addLiquidity(uint256 _tokenAmount) public payable {
         IERC20 token = IERC20(tokenAddress);
-        require(token.balanceOf(msg.sender) >= _tokenAmount, "The sender doesn't have enough balance");
+
+        require(token.balanceOf(msg.sender) >= _tokenAmount, "Sender Token Balance is Insufficient");
         token.transferFrom(msg.sender, address(this), _tokenAmount);
     }
 
-    function getReserve() public view returns (uint256 _contractTokenBalance) {
+    function getTokenReserve() public view returns (uint256 _contractTokenBalance) {
         IERC20 token = IERC20(tokenAddress);
+
         return(token.balanceOf(address(this)));
+    }
+
+    function getIczReserve() public view returns (uint256 _contractTokenBalance) {
+        return address(this).balance;
     }
 
     function getTokenAmount(uint256 _iczAmount) public view returns (uint256) {
         require(_iczAmount > 0, "ICZ amount to swap cannot be zero");
-        uint256 tokenReserve = getReserve();
-        uint256 iczReserve = address(this).balance;
-        return getAmount(_iczAmount, iczReserve, tokenReserve);
+        uint256 outputTokenAmount =  getAmount(_iczAmount, getIczReserve() - _iczAmount, getTokenReserve());
+        return outputTokenAmount;
     }
 
     function getIczAmount(uint256 _tokenAmount) public view returns (uint256) {
         require(_tokenAmount > 0, "Token Amount to swap cannot be zero");
-        uint256 tokenReserve = getReserve();
-        uint256 iczReserve = address(this).balance;
-        return getAmount(_tokenAmount, tokenReserve, iczReserve);
+        uint256 outputIczAmount = getAmount(_tokenAmount, getTokenReserve(), getIczReserve());
+        return outputIczAmount;
     }
 
     function swapIczForToken(uint256 _minTokensToObtain) public payable {
-        uint256 tokenReserve = getReserve();
-        uint256 iczReserve = address(this).balance;
-        uint256 tokensObtained = getAmount(msg.value, iczReserve - msg.value, tokenReserve);
+        uint256 tokensObtained = getTokenAmount(msg.value);
 
         require(tokensObtained >= _minTokensToObtain, "Tokens Obtained is less than user's limit");
         IERC20(tokenAddress).transfer(msg.sender, tokensObtained);
     }
-
     
-    function swapTokensForIcz(uint256 _tokenAmountToSell, uint256 _minEthToObtain) public {
-        uint256 tokenReserve = getReserve();
-        uint256 iczReserve = address(this).balance;
-        uint256 ethObtained = getAmount(
-            _tokenAmountToSell,
-            tokenReserve,
-            iczReserve
-        );
+    function swapTokenForIcz(uint256 _tokenAmount, uint256 _minIczToObtain) public {
+        uint256 iczObtained = getIczAmount(_tokenAmount);
 
-        require(ethObtained >= _minEthToObtain, "ICZ Obtained is less than user's limit");
-        IERC20(tokenAddress).transferFrom(msg.sender, address(this), _tokenAmountToSell);
-        payable(msg.sender).transfer(ethObtained);
+        require(iczObtained >= _minIczToObtain, "ICZ Obtained is less than user's limit");
+        IERC20(tokenAddress).transferFrom(msg.sender, address(this), _tokenAmount);
+        payable(msg.sender).transfer(iczObtained);
     }
 
     function getAmount(
@@ -65,7 +60,7 @@ contract Exchange {
         uint256 inputReserve,
         uint256 outputReserve
     ) private pure returns (uint256) {
-        require(inputReserve > 0 && outputReserve > 0, "invalid reserves");
+        require(inputReserve > 0 && outputReserve > 0, "Insufficient liquidity for this trade.");
         return (inputAmount * outputReserve) / (inputReserve + inputAmount);
     }
 
