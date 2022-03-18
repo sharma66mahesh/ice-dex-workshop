@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -27,41 +27,28 @@ contract Exchange {
     function getIczReserve() public view returns (uint256 _contractTokenBalance) {
         return address(this).balance;
     }
+    // FROM. HERE...
 
-    function getTokenAmount(uint256 _iczAmount) public view returns (uint256) {
-        require(_iczAmount > 0, "ICZ amount to swap cannot be zero");
-        uint256 outputTokenAmount =  getAmount(_iczAmount, getIczReserve() - _iczAmount, getTokenReserve());
-        return outputTokenAmount;
-    }
+    function swapIczForToken() public payable {
+        // inputICZ = msg.value
+        uint256 outputToken = getAmount(msg.value, getIczReserve() - msg.value, getTokenReserve());
 
-    function getIczAmount(uint256 _tokenAmount) public view returns (uint256) {
-        require(_tokenAmount > 0, "Token Amount to swap cannot be zero");
-        uint256 outputIczAmount = getAmount(_tokenAmount, getTokenReserve(), getIczReserve());
-        return outputIczAmount;
-    }
-
-    function swapIczForToken(uint256 _minTokensToObtain) public payable {
-        uint256 tokensObtained = getTokenAmount(msg.value);
-
-        require(tokensObtained >= _minTokensToObtain, "Tokens Obtained is less than user's limit");
-        IERC20(tokenAddress).transfer(msg.sender, tokensObtained);
+        IERC20(tokenAddress).transfer(msg.sender, outputToken);
     }
     
-    function swapTokenForIcz(uint256 _tokenAmount, uint256 _minIczToObtain) public {
-        uint256 iczObtained = getIczAmount(_tokenAmount);
+    function swapTokenForIcz(uint256 _tokenAmount) public {
+        uint256 outputIcz = getAmount(_tokenAmount, getTokenReserve(), getIczReserve());
 
-        require(iczObtained >= _minIczToObtain, "ICZ Obtained is less than user's limit");
         IERC20(tokenAddress).transferFrom(msg.sender, address(this), _tokenAmount);
-        payable(msg.sender).transfer(iczObtained);
+        payable(msg.sender).transfer(outputIcz);
     }
 
     function getAmount(
         uint256 inputAmount,
         uint256 inputReserve,
         uint256 outputReserve
-    ) private pure returns (uint256) {
+    ) public view returns (uint256) {
         require(inputReserve > 0 && outputReserve > 0, "Insufficient liquidity for this trade.");
         return (inputAmount * outputReserve) / (inputReserve + inputAmount);
     }
-
-}
+} 

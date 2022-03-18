@@ -13,13 +13,7 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_minTokensToObtain",
-				"type": "uint256"
-			}
-		],
+		"inputs": [],
 		"name": "swapIczForToken",
 		"outputs": [],
 		"stateMutability": "payable",
@@ -30,11 +24,6 @@
 			{
 				"internalType": "uint256",
 				"name": "_tokenAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_minIczToObtain",
 				"type": "uint256"
 			}
 		],
@@ -58,11 +47,21 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_tokenAmount",
+				"name": "inputAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "inputReserve",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "outputReserve",
 				"type": "uint256"
 			}
 		],
-		"name": "getIczAmount",
+		"name": "getAmount",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -80,25 +79,6 @@
 			{
 				"internalType": "uint256",
 				"name": "_contractTokenBalance",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_iczAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "getTokenAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
 				"type": "uint256"
 			}
 		],

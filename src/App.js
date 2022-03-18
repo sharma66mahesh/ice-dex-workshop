@@ -96,11 +96,11 @@ function App() {
         const res1 = await tokenContract.approve(exchangeContract.address, ethers.utils.parseEther(values.amount));
         await res1.wait();
         alert(res1.hash);
-        tx = await exchangeContract.swapTokenForIcz(ethers.utils.parseEther(values.amount), 0);
+        tx = await exchangeContract.swapTokenForIcz(ethers.utils.parseEther(values.amount));
         
       } else {
         // swap ICZ tokens with MYTOKEN
-        tx = await exchangeContract.swapIczForToken(0, { value: ethers.utils.parseEther(values.amount) });
+        tx = await exchangeContract.swapIczForToken({ value: ethers.utils.parseEther(values.amount) });
       }    
 
       await tx.wait();

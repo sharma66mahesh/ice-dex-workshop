@@ -39,8 +39,10 @@ const SwapForm = ({ handleSubmit, exchangeContract }) => {
     const estimateReceivingIcz = async (exchangeContract, amount) => {
         if(!exchangeContract) return;
         try {
-            const res = await exchangeContract.getIczAmount(ethers.utils.parseEther(amount));
-            console.log(res);
+            // TODO: Not working properly
+            const inputReserve = await exchangeContract.getTokenReserve();
+            const outputReserve = await exchangeContract.getIczReserve();
+            const res = await exchangeContract.getAmount(ethers.utils.parseEther(amount), inputReserve, outputReserve);
             setReceivingAmt(ethers.utils.formatEther(res));
         } catch(e) {
             console.error(e);
@@ -54,7 +56,9 @@ const SwapForm = ({ handleSubmit, exchangeContract }) => {
         if(!exchangeContract) return;
         try {
             // TODO: Not working properly
-            const res = await exchangeContract.getTokenAmount(amount);
+            const inputReserve = await exchangeContract.getIczReserve();
+            const outputReserve = await exchangeContract.getTokenReserve();
+            const res = await exchangeContract.getAmount(ethers.utils.parseEther(amount), inputReserve, outputReserve);
             console.log(res);
             setReceivingAmt(ethers.utils.formatEther(res));
         } catch(e) {
