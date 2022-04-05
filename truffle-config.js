@@ -21,7 +21,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const fs = require('fs');
-const mnemonic = fs.readFileSync(".secret").toString().trim();
+const privateKey = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
   /**
@@ -49,9 +49,7 @@ module.exports = {
     },
     frost: {
       provider: () => new HDWalletProvider({
-        mnemonic: {
-          phrase: mnemonic,
-        },
+        privateKeys: [ privateKey ],
         providerOrUrl: 'https://frost-rpc.icenetwork.io:9933'
       }),
       port: 9933,
