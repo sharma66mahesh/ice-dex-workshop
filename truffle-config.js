@@ -47,13 +47,13 @@ module.exports = {
       network_id: "*",       // Any network (default: none)
       timeoutBlocks: 200,
     },
-    frost: {
+    arctic: {
       provider: () => new HDWalletProvider({
         privateKeys: [ privateKey ],
-        providerOrUrl: 'https://frost-rpc.icenetwork.io:9933'
+        providerOrUrl: 'https://arctic-rpc.icenetwork.io:9933'
       }),
       port: 9933,
-      network_id: 553,
+      network_id: 552,
       timeoutBlocks: 2000000,
     },
   },
