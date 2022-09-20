@@ -23,7 +23,9 @@ code {
 .card-header {
   text-align:  center;
   text-decoration: underline; 
-  margin-bottom: 40px;
+  flex: 1;
+  
+
 }
 
 .half-width {
@@ -40,4 +42,76 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding: 0 100px;
+  height: 100px;
+}
+
+.header button a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.header button {
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.chart-container h2 {
+  margin-bottom: 40px;
+}
+
+.chart {
+  display: flex;
+  align-items: center;
+  gap: 200px;
+}
+
+.token-supply {
+  margin: 40px 0;
+  padding: 15px 20px;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+.token-supply p {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 1rem;
+  text-align: left;
+}
+
+.users-table {
+  margin-bottom: 100px;
+}
+
+.users-table h2 {
+  text-align: center;
+}
+
+.users-table a {
+  text-decoration: none;
+  color: rgb(65, 100, 226);
 }

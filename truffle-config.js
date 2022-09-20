@@ -48,6 +48,7 @@ module.exports = {
       timeoutBlocks: 200,
     },
     arctic: {
+      networkCheckTimeout: 40000,
       provider: () => new HDWalletProvider({
         privateKeys: [ privateKey ],
         providerOrUrl: 'https://arctic-rpc.icenetwork.io:9933'
@@ -55,6 +56,8 @@ module.exports = {
       port: 9933,
       network_id: 552,
       timeoutBlocks: 2000000,
+      skipDryRun: true,
+      confirmations: 3,
     },
   },
 
