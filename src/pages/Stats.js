@@ -18,6 +18,9 @@ import {
 } from 'recharts';
 import { BigNumber } from 'bignumber.js';
 
+const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS;
+const EXCHANGE_ADDRESS = process.env.REACT_APP_EXCHANGE_ADDRESS;
+
 const Stats = () => {
   const [transferFromData, setTransferFromData] = useState([]);
   const [transferToReserve, setTransferToReserve] = useState([]);
@@ -30,7 +33,7 @@ const Stats = () => {
 
   const transferFromQuery = `
   query MyQuery {
-    ftTransfers(where: {token: {id_eq: "0x1d03ebb7894b67ec6aa1cccdfd0e3898d069fc11"}, from: {id_eq: "0x6218F77faDcddf600AdDa2bC2b66B54F1c3bC469"}}) {
+    ftTransfers(where: {token: {id_eq: "${TOKEN_ADDRESS.toLowerCase()}"}, from: {id_eq: "${EXCHANGE_ADDRESS}"}}) {
       amount
       timestamp
       from {
@@ -47,7 +50,7 @@ const Stats = () => {
 `;
   const transferToQuery = `
   query MyQuery {
-    ftTransfers(where: {token: {id_eq: "0x1d03ebb7894b67ec6aa1cccdfd0e3898d069fc11"}, to: {id_eq: "0x6218F77faDcddf600AdDa2bC2b66B54F1c3bC469"}}) {
+    ftTransfers(where: {token: {id_eq: "${TOKEN_ADDRESS.toLowerCase()}"}, to: {id_eq: "${EXCHANGE_ADDRESS}"}}) {
       amount
       timestamp
       from {
@@ -65,7 +68,7 @@ const Stats = () => {
 
 const usersQuery = `
 query MyQuery {
-  accountFTokenBalances(where: {token: {id_eq: "0x1d03ebb7894b67ec6aa1cccdfd0e3898d069fc11"}, AND: {id_not_contains: "0x6218F77faDcddf600AdDa2bC2b66B54F1c3bC469", id_not_startsWith: "0x0000000000000000000000000000000000000000"}}) {
+  accountFTokenBalances(where: {token: {id_eq: "${TOKEN_ADDRESS.toLowerCase()}"}, AND: {id_not_contains: "${EXCHANGE_ADDRESS}", id_not_startsWith: "0x0000000000000000000000000000000000000000"}}) {
     amount
     id
   }
