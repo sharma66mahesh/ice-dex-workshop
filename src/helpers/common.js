@@ -1,5 +1,7 @@
 import BigNumber from "bignumber.js";
 
+const INDEXING_URL = process.env.REACT_APP_INDEXING_API;
+
 export const formattedAmount = (amount) => {
     console.log(amount)
 
@@ -21,7 +23,7 @@ export const getFormattedDate = (timestamp) => {
 }
 
 export const getTransferFromData = async (query, setData, setToken) => {
-    const response = await fetch('http://localhost:4350/graphql', {
+    const response = await fetch(`${INDEXING_URL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query  }),
@@ -47,7 +49,7 @@ export const getTransferFromData = async (query, setData, setToken) => {
   };
 
   export const getTransferToData = async (query, setData, setToken) => {
-    const response = await fetch('http://localhost:4350/graphql', {
+    const response = await fetch(`${INDEXING_URL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query  }),
@@ -75,7 +77,7 @@ export const getTransferFromData = async (query, setData, setToken) => {
 
 
   export const getUsersData = async (query, setData) => {
-    const response = await fetch('http://localhost:4350/graphql', {
+    const response = await fetch(`${INDEXING_URL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query  }),

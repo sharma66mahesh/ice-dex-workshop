@@ -53,10 +53,11 @@ code {
   height: 100px;
 }
 
-.header button a {
+.header  a {
   color: #000;
   text-decoration: none;
   font-weight: bold;
+  
 }
 
 .header button {
