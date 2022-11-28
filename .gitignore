@@ -25,3 +25,5 @@ yarn-error.log*
 .openzeppelin/.session
 
 .secret
+**/cache/**
+**/artifacts/**
